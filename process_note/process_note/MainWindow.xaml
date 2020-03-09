@@ -10,8 +10,8 @@
         <ListView Name="ProcessInfo">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{ProcessName}"/>
-                    <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{ID}"/>
+                    <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{Binding ProcessName}"/>
+                    <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}"/>
                     <GridViewColumn Header="Status" Width="70"/>
                 </GridView>
             </ListView.View>
