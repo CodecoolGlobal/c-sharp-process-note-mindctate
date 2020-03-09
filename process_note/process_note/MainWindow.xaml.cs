@@ -29,7 +29,7 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName });
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName});
             }
             ProcessInfo.ItemsSource = processList;
 
@@ -46,6 +46,16 @@ namespace process_note
         {
             public int Id { get; set; }
             public string Name { get; set; }
+
+            public string CpuUsage { get; set; }
+
+            public string MemoryUsage { get; set; }
+
+            public string RunningTime { get; set; }
+
+            public string StartTime { get; set; }
+
+            public string Threads { get; set; }
         }
     }
 }
