@@ -26,15 +26,23 @@ namespace process_note
         {
             InitializeComponent();
             processes = Process.GetProcesses();
-            List<processlist> processList = new List<processlist>();
+            List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new processlist() { Id = process.Id, Name = process.ProcessName });
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName });
             }
             ProcessInfo.ItemsSource = processList;
+
+        }
+        private void listViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
+            ProcessWindow win2 = new ProcessWindow();
+            win2.Title = selectedProcess.Name;
+            win2.Show();
         }
 
-        public class processlist
+        public class ProcessList
         {
             public int Id { get; set; }
             public string Name { get; set; }

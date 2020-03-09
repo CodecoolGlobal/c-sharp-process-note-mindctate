@@ -10,11 +10,15 @@
         <ListView Name="ProcessInfo">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{Binding ProcessName}"/>
-                    <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Header="Status" Width="70"/>
+                    <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="listViewItem_MouseDoubleClick" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </Window>
