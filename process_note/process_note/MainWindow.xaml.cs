@@ -36,8 +36,8 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process)});
-                
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
             }
             ProcessInfo.ItemsSource = processList;
 
@@ -89,6 +89,36 @@ namespace process_note
             }
             
         }
-        
+
+        private string CalculateMemoryUsage(Process process)
+        {
+            return (process.PrivateMemorySize64 / (1024*1024)).ToString();
+        }
+
+        private string GetStartTime(Process process)
+        {
+            try
+            {
+                return process.StartTime.ToString();
+            }
+            catch
+            {
+                return "Not accessible";
+            }
+        }
+
+        private string GetRunningTime(Process process)
+        {
+            try
+            {
+                TimeSpan runningTime = DateTime.Now.ToUniversalTime() - process.StartTime.ToUniversalTime();
+                return Math.Round(runningTime.TotalSeconds, 2).ToString();
+            }
+            catch
+            {
+                return "Not accessible";
+
+            }
+        }
     }
 }
