@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace process_note
     public partial class MainWindow : Window
     {
         public Process[] processes;
+        private static DateTime lastTime;
+        private static TimeSpan lastTotalProcessorTime;
+        private static DateTime curTime;
+        private static TimeSpan curTotalProcessorTime;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,7 +36,7 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName});
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process)});
                 
             }
             ProcessInfo.ItemsSource = processList;
@@ -59,5 +66,29 @@ namespace process_note
             public string Threads { get; set; }
         }
 
+        public string GetCpuUsage(Process process)
+        {
+            if (lastTime == null)
+            {
+                lastTime = DateTime.Now;
+                lastTotalProcessorTime = process.TotalProcessorTime;
+
+                return "0.00 %";
+            }
+            else
+            {
+                curTime = DateTime.Now;
+                curTotalProcessorTime = process.TotalProcessorTime;
+
+                double CpuUsage = (curTotalProcessorTime.TotalMilliseconds - lastTotalProcessorTime.TotalMilliseconds) /
+                    (curTime.Subtract(lastTime).TotalMilliseconds / Convert.ToDouble(Environment.ProcessorCount));
+
+                lastTime = curTime;
+                lastTotalProcessorTime = curTotalProcessorTime;
+                return $"{CpuUsage:N2} %";
+            }
+            
+        }
+        
     }
 }
