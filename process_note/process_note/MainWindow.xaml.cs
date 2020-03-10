@@ -29,8 +29,8 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = CalculateCpuUsageByPID(), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
-                                                    StartTime = GetStartTime(process) });
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = CalculateCpuUsageByPID(),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
                 
             }
             ProcessInfo.ItemsSource = processList;
@@ -60,11 +60,11 @@ namespace process_note
             public string Threads { get; set; }
         }
 
-        private string CalculateCpuUsageByPID()
+        /*private string CalculateCpuUsageByPID()
         {
             PerformanceCounter performanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             return performanceCounter.NextValue().ToString();
-        }
+        }*/
 
         private string CalculateMemoryUsage(Process process)
         {
@@ -73,7 +73,28 @@ namespace process_note
 
         private string GetStartTime(Process process)
         {
-            return process.StartTime.ToUniversalTime().ToString(); //currently not working
+            try
+            {
+                return process.StartTime.ToString();
+            }
+            catch
+            {
+                return "Not accessible";
+            }
+        }
+
+        private string GetRunningTime(Process process)
+        {
+            try
+            {
+                TimeSpan runningTime = DateTime.Now.ToUniversalTime() - process.StartTime.ToUniversalTime();
+                return Math.Round(runningTime.TotalSeconds, 2).ToString();
+            }
+            catch
+            {
+                return "Not accessible";
+
+            }
         }
     }
 }

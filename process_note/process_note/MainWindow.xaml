@@ -15,7 +15,7 @@
                     <GridViewColumn Header="CPU" Width="60" DisplayMemberBinding="{Binding CpuUsage}"/>
                     <GridViewColumn Header="Memory" Width="100" DisplayMemberBinding="{Binding MemoryUsage}"/>
                     <GridViewColumn Header="Running time" Width="100" DisplayMemberBinding="{Binding RunningTime}"/>
-                    <GridViewColumn Header="Start time" Width="100" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn Header="Start time" Width="150" DisplayMemberBinding="{Binding StartTime}"/>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
