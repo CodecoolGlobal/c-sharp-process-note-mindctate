@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:process_note"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="470" Width="800">
     <Grid>
-        <ListView Name="ProcessInfo">
+        <ListView Name="ProcessInfo" Margin="0,0,0,20">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}" />
                     <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="CPU" Width="100" DisplayMemberBinding="{Binding CpuUsage}"/>
+                    <GridViewColumn Header="CPU" Width="60" DisplayMemberBinding="{Binding CpuUsage}"/>
                     <GridViewColumn Header="Memory" Width="100" DisplayMemberBinding="{Binding MemoryUsage}"/>
                     <GridViewColumn Header="Running time" Width="100" DisplayMemberBinding="{Binding RunningTime}"/>
                     <GridViewColumn Header="Start time" Width="100" DisplayMemberBinding="{Binding StartTime}"/>
@@ -20,9 +20,12 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDoubleClick" Handler="listViewItem_MouseDoubleClick" />
+                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <WrapPanel Margin="0,398,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Content="Show Threads" Width="80"/>
+        </WrapPanel>
     </Grid>
 </Window>

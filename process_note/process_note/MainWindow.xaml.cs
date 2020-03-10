@@ -30,11 +30,12 @@ namespace process_note
             foreach (Process process in processes)
             {
                 processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName});
+                
             }
             ProcessInfo.ItemsSource = processList;
 
         }
-        private void listViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
             ProcessWindow win2 = new ProcessWindow();
@@ -57,5 +58,6 @@ namespace process_note
 
             public string Threads { get; set; }
         }
+
     }
 }
