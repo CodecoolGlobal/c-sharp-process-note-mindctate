@@ -29,7 +29,7 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName});
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = CalculateCpuUsageByPID(), MemoryUsage = CalculateMemoryUsage(process) + " MB"});
                 
             }
             ProcessInfo.ItemsSource = processList;
@@ -59,5 +59,15 @@ namespace process_note
             public string Threads { get; set; }
         }
 
+        private string CalculateCpuUsageByPID()
+        {
+            PerformanceCounter performanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            return performanceCounter.NextValue().ToString();
+        }
+
+        private string CalculateMemoryUsage(Process process)
+        {
+            return (process.PrivateMemorySize64 / (1024*1024)).ToString();
+        }
     }
 }
