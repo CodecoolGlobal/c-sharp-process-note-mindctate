@@ -53,6 +53,7 @@ namespace process_note
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
             Process actualProcess = Process.GetProcessById(selectedProcess.Id);
+            //selectedProcess.CpuUsage = GetCpuUsage(actualProcess);
             selectedProcess.MemoryUsage = CalculateMemoryUsage(actualProcess) + " MB";
             selectedProcess.RunningTime = GetRunningTime(actualProcess);
             ProcessInfo.Items.Refresh();
