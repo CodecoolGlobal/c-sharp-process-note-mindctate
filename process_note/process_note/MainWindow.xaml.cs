@@ -29,6 +29,7 @@ namespace process_note
         private static TimeSpan curTotalProcessorTime;
 
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,20 +37,27 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = GetCpuUsage(process),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
                                                     RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
             }
             ProcessInfo.ItemsSource = processList;
 
         }
-        private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        private void ListViewItem_MouseSingleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
             ProcessWindow win2 = new ProcessWindow();
             win2.Title = selectedProcess.Name;
             win2.Show();
         }
-
+        
+        private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
+            ProcessInfo.Items.Refresh();
+            
+            
+        }
         public class ProcessList
         {
             public int Id { get; set; }
@@ -66,7 +74,7 @@ namespace process_note
             public string Threads { get; set; }
         }
 
-        public string GetCpuUsage(Process process)
+        /*public string GetCpuUsage(Process process)
         {
             if (lastTime == null)
             {
@@ -88,7 +96,7 @@ namespace process_note
                 return $"{CpuUsage:N2} %";
             }
             
-        }
+        }*/
 
         private string CalculateMemoryUsage(Process process)
         {
