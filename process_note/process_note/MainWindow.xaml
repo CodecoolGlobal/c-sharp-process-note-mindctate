@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="470" Width="800">
     <Grid>
-        <ListView Name="ProcessInfo" Margin="0,0,0,20">
+        <ListView Name="ProcessInfo">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}" />
@@ -16,6 +16,16 @@
                     <GridViewColumn Header="Memory" Width="100" DisplayMemberBinding="{Binding MemoryUsage}"/>
                     <GridViewColumn Header="Running time" Width="100" DisplayMemberBinding="{Binding RunningTime}"/>
                     <GridViewColumn Header="Start time" Width="150" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button 
+                                    Content="Show Thread"
+                                    Click="Button_Click"
+                                    Tag="{Binding Id}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -25,8 +35,5 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <WrapPanel Margin="0,398,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Button Content="Show Threads" Width="80"/>
-        </WrapPanel>
     </Grid>
 </Window>

@@ -28,8 +28,6 @@ namespace process_note
         private static DateTime curTime;
         private static TimeSpan curTotalProcessorTime;
 
-
-
         public MainWindow()
         {
             InitializeComponent();
@@ -76,26 +74,33 @@ namespace process_note
 
         /*public string GetCpuUsage(Process process)
         {
-            if (lastTime == null)
+            try
             {
-                lastTime = DateTime.Now;
-                lastTotalProcessorTime = process.TotalProcessorTime;
+                if (lastTime == null)
+                {
+                    lastTime = DateTime.Now;
+                    lastTotalProcessorTime = process.TotalProcessorTime;
 
-                return "0.00 %";
+                    return "0.00 %";
+                }
+                else
+                {
+                    curTime = DateTime.Now;
+                    curTotalProcessorTime = process.TotalProcessorTime;
+
+                    double CpuUsage = (curTotalProcessorTime.TotalMilliseconds - lastTotalProcessorTime.TotalMilliseconds) /
+                        (curTime.Subtract(lastTime).TotalMilliseconds / Convert.ToDouble(Environment.ProcessorCount));
+
+                    lastTime = curTime;
+                    lastTotalProcessorTime = curTotalProcessorTime;
+                    return $"{CpuUsage:N2} %";
+                }
             }
-            else
+            catch
             {
-                curTime = DateTime.Now;
-                curTotalProcessorTime = process.TotalProcessorTime;
+                return "Not accessible";
 
-                double CpuUsage = (curTotalProcessorTime.TotalMilliseconds - lastTotalProcessorTime.TotalMilliseconds) /
-                    (curTime.Subtract(lastTime).TotalMilliseconds / Convert.ToDouble(Environment.ProcessorCount));
-
-                lastTime = curTime;
-                lastTotalProcessorTime = curTotalProcessorTime;
-                return $"{CpuUsage:N2} %";
             }
-            
         }*/
 
         private string CalculateMemoryUsage(Process process)
@@ -128,5 +133,16 @@ namespace process_note
 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            int processId = Convert.ToInt32(((Button)sender).Tag);
+            Process selectedProcess = Process.GetProcessById(processId);
+            ProcessWindow win2 = new ProcessWindow();
+            win2.Title = selectedProcess.Threads.ToString();
+            MessageBox.Show(processId.ToString());
+            win2.Show();
+        }
+
     }
 }
