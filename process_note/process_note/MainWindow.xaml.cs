@@ -22,6 +22,11 @@ namespace process_note
     public partial class MainWindow : Window
     {
         public Process[] processes;
+        private static DateTime lastTime;
+        private static TimeSpan lastTotalProcessorTime;
+        private static DateTime curTime;
+        private static TimeSpan curTotalProcessorTime;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,7 +34,7 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = CalculateCpuUsageByPID(),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = GetCpuUsage(process),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
                                                     RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
                 
             }
@@ -60,10 +65,36 @@ namespace process_note
             public string Threads { get; set; }
         }
 
-        /*private string CalculateCpuUsageByPID()
+        /*public string GetCpuUsage(Process process)
         {
-            PerformanceCounter performanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            return performanceCounter.NextValue().ToString();
+            try
+            {
+                if (lastTime == null)
+                {
+                    lastTime = DateTime.Now;
+                    lastTotalProcessorTime = process.TotalProcessorTime;
+
+                    return "0.00 %";
+                }
+                else
+                {
+                    curTime = DateTime.Now;
+                    curTotalProcessorTime = process.TotalProcessorTime;
+
+                    double CpuUsage = (curTotalProcessorTime.TotalMilliseconds - lastTotalProcessorTime.TotalMilliseconds) /
+                        (curTime.Subtract(lastTime).TotalMilliseconds / Convert.ToDouble(Environment.ProcessorCount));
+
+                    lastTime = curTime;
+                    lastTotalProcessorTime = curTotalProcessorTime;
+                    return $"{CpuUsage:N2} %";
+                }
+            }
+            catch
+            {
+                return "Not accessible";
+
+            }
+
         }*/
 
         private string CalculateMemoryUsage(Process process)
@@ -96,5 +127,16 @@ namespace process_note
 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            int processId = Convert.ToInt32(((Button)sender).Tag);
+            Process selectedProcess = Process.GetProcessById(processId);
+            ProcessWindow win2 = new ProcessWindow();
+            win2.Title = selectedProcess.Threads.ToString();
+            MessageBox.Show(processId.ToString());
+            win2.Show();
+        }
+
     }
 }
