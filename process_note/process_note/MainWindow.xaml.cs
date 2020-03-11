@@ -23,10 +23,10 @@ namespace process_note
     public partial class MainWindow : Window
     {
         public Process[] processes;
-        /*private static DateTime lastTime;
+        private static DateTime lastTime;
         private static TimeSpan lastTotalProcessorTime;
         private static DateTime curTime;
-        private static TimeSpan curTotalProcessorTime;*/
+        private static TimeSpan curTotalProcessorTime;
 
         public MainWindow()
         {
@@ -35,21 +35,32 @@ namespace process_note
             List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
-                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = GetCpuUsage(process),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
-                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process)});
-                
+                processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
             }
             ProcessInfo.ItemsSource = processList;
 
+
         }
-        private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        private void ListViewItem_MouseSingleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
             ProcessWindow win2 = new ProcessWindow();
             win2.Title = selectedProcess.Name;
             win2.Show();
         }
-
+        
+        private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
+            Process actualProcess = Process.GetProcessById(selectedProcess.Id);
+            selectedProcess.CpuUsage = GetCpuUsage(actualProcess);
+            selectedProcess.MemoryUsage = CalculateMemoryUsage(actualProcess) + " MB";
+            selectedProcess.RunningTime = GetRunningTime(actualProcess) + " s";
+            ProcessInfo.Items.Refresh();
+            
+            
+        }
         public class ProcessList
         {
             public int Id { get; set; }
@@ -64,7 +75,7 @@ namespace process_note
             public string StartTime { get; set; }
         }
 
-        /*public string GetCpuUsage(Process process)
+        private string GetCpuUsage(Process process)
         {
             try
             {
@@ -93,8 +104,7 @@ namespace process_note
                 return "Not accessible";
 
             }
-
-        }*/
+        }
 
         private string CalculateMemoryUsage(Process process)
         {
@@ -145,6 +155,19 @@ namespace process_note
             }
             var message = string.Join(Environment.NewLine, threadId);
             MessageBox.Show(message);
+        }
+
+        private void handleAlwaysOnTop(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            if (AlwaysOnTop.IsChecked == false)
+            {
+                window.Topmost = true;
+            }
+            else
+            {
+                window.Topmost = false;
+            }
         }
     }
 }

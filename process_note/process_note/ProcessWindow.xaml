@@ -9,9 +9,7 @@
       Height="300" 
       Width="250">
 
-    <StackPanel>
-        <ListView Name="Threads">
-        </ListView>
-    </StackPanel>
+    <Grid>
 
+    </Grid>
 </Window>
