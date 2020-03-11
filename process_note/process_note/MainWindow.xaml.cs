@@ -52,6 +52,9 @@ namespace process_note
         private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
+            Process actualProcess = Process.GetProcessById(selectedProcess.Id);
+            selectedProcess.MemoryUsage = CalculateMemoryUsage(actualProcess) + " MB";
+            selectedProcess.RunningTime = GetRunningTime(actualProcess);
             ProcessInfo.Items.Refresh();
             
             
