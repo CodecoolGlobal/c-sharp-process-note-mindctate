@@ -5,9 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:process_note"
       mc:Ignorable="d"
-      Title="ProcessWindow" Height="244" Width="458">
+      Title="ProcessWindow" 
+      Height="300" 
+      Width="250">
 
-    <Grid>
+    <StackPanel>
+        <ListView Name="Threads">
+        </ListView>
+    </StackPanel>
 
-    </Grid>
 </Window>

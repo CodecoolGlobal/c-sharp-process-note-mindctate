@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Threading;
 
 namespace process_note
 {
@@ -22,10 +23,10 @@ namespace process_note
     public partial class MainWindow : Window
     {
         public Process[] processes;
-        private static DateTime lastTime;
+        /*private static DateTime lastTime;
         private static TimeSpan lastTotalProcessorTime;
         private static DateTime curTime;
-        private static TimeSpan curTotalProcessorTime;
+        private static TimeSpan curTotalProcessorTime;*/
 
         public MainWindow()
         {
@@ -35,7 +36,7 @@ namespace process_note
             foreach (Process process in processes)
             {
                 processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, /*CpuUsage = GetCpuUsage(process),*/ MemoryUsage = CalculateMemoryUsage(process) + " MB", 
-                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process)});
                 
             }
             ProcessInfo.ItemsSource = processList;
@@ -61,8 +62,6 @@ namespace process_note
             public string RunningTime { get; set; }
 
             public string StartTime { get; set; }
-
-            public string Threads { get; set; }
         }
 
         /*public string GetCpuUsage(Process process)
@@ -128,15 +127,24 @@ namespace process_note
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private ProcessThreadCollection GetThreads(Process process)
         {
-            int processId = Convert.ToInt32(((Button)sender).Tag);
-            Process selectedProcess = Process.GetProcessById(processId);
-            ProcessWindow win2 = new ProcessWindow();
-            win2.Title = selectedProcess.Threads.ToString();
-            MessageBox.Show(processId.ToString());
-            win2.Show();
+            return process.Threads;
+
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> threadId = new List<string>();
+            Process process = Process.GetProcessById(Convert.ToInt32(((Button)sender).Tag));
+            ProcessThreadCollection threadCollection = GetThreads(process);
+            foreach(ProcessThread thread in threadCollection)
+            {
+                threadId.Add(thread.Id.ToString());
+            }
+            var message = string.Join(Environment.NewLine, threadId);
+            MessageBox.Show(message);
+        }
     }
 }
