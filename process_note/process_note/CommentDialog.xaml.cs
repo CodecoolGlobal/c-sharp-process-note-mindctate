@@ -20,12 +20,28 @@ namespace process_note
     /// <summary>
     /// Interaction logic for ProcessWindow.xaml
     /// </summary>
-    public partial class ProcessWindow : Window
+    public partial class CommentDialog : Window
     {
-        public ProcessWindow()
+
+        string input;
+
+        public CommentDialog()
         {
             InitializeComponent();
+            MainWindow mainWindow = new MainWindow();
+            //mainWindow.processList.
             
+        }
+
+        public void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            input = InputTextBox.Text;
+            
+        }
+
+        public void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -26,12 +26,29 @@
                     <GridViewColumn Header="Memory" Width="100" DisplayMemberBinding="{Binding MemoryUsage}"/>
                     <GridViewColumn Header="Running time" Width="100" DisplayMemberBinding="{Binding RunningTime}"/>
                     <GridViewColumn Header="Start time" Width="150" DisplayMemberBinding="{Binding StartTime}"/>
+                    <GridViewColumn Header="Comments" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Comment}" Width="150" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button 
-                                    Content="Show Thread"
-                                    Click="Button_Click"
+                                    Content="Add Comment"
+                                    Click="Add_Comment_Click"
+                                    Tag="{Binding Id}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button 
+                                    Content="Show Threads"
+                                    Click="Show_Threads_Click"
                                     Tag="{Binding Id}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

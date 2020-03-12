@@ -27,12 +27,13 @@ namespace process_note
         private static TimeSpan lastTotalProcessorTime;
         private static DateTime curTime;
         private static TimeSpan curTotalProcessorTime;
+        public List<ProcessList> processList = new List<ProcessList>();
 
         public MainWindow()
         {
             InitializeComponent();
             processes = Process.GetProcesses();
-            List<ProcessList> processList = new List<ProcessList>();
+            //List<ProcessList> processList = new List<ProcessList>();
             foreach (Process process in processes)
             {
                 processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
@@ -45,9 +46,7 @@ namespace process_note
         private void ListViewItem_MouseSingleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
-            ProcessWindow win2 = new ProcessWindow();
-            win2.Title = selectedProcess.Name;
-            win2.Show();
+            
         }
         
         private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -64,6 +63,7 @@ namespace process_note
         public class ProcessList
         {
             public int Id { get; set; }
+
             public string Name { get; set; }
 
             public string CpuUsage { get; set; }
@@ -73,6 +73,8 @@ namespace process_note
             public string RunningTime { get; set; }
 
             public string StartTime { get; set; }
+
+            public List<string> Comment { get; set; }
         }
 
         private string GetCpuUsage(Process process)
@@ -144,7 +146,7 @@ namespace process_note
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Show_Threads_Click(object sender, RoutedEventArgs e)
         {
             List<string> threadId = new List<string>();
             Process process = Process.GetProcessById(Convert.ToInt32(((Button)sender).Tag));
@@ -179,6 +181,13 @@ namespace process_note
         private void ExitApp(object sender, EventArgs e)
         {
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Add_Comment_Click(object sender, RoutedEventArgs e)
+        {
+            //Process actualProcess = Process.GetProcessById(selectedProcess.Id);
+            CommentDialog dialog = new CommentDialog();
+            dialog.Show();
         }
     }
 }
