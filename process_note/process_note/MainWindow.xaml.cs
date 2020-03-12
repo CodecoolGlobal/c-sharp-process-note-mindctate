@@ -154,7 +154,7 @@ namespace process_note
                 threadId.Add(thread.Id.ToString());
             }
             var message = string.Join(Environment.NewLine, threadId);
-            MessageBox.Show(message);
+            MessageBox.Show("Thread Ids: \n" + message);
         }
 
         private void handleAlwaysOnTop(object sender, EventArgs e)
