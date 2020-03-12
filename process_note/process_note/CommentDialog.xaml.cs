@@ -23,25 +23,25 @@ namespace process_note
     public partial class CommentDialog : Window
     {
 
-        string input;
-
         public CommentDialog()
         {
             InitializeComponent();
-            MainWindow mainWindow = new MainWindow();
-            //mainWindow.processList.
+            
             
         }
 
         public void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-            input = InputTextBox.Text;
+            string input = InputTextBox.Text;
+            MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+            int processId = (int)Application.Current.Resources["processId"];
             
+            this.Close();
         }
 
         public void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }

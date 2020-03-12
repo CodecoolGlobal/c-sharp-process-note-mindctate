@@ -28,6 +28,7 @@ namespace process_note
         private static DateTime curTime;
         private static TimeSpan curTotalProcessorTime;
         public List<ProcessList> processList = new List<ProcessList>();
+         
 
         public MainWindow()
         {
@@ -37,7 +38,7 @@ namespace process_note
             foreach (Process process in processes)
             {
                 processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
-                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process)});
             }
             ProcessInfo.ItemsSource = processList;
 
@@ -183,11 +184,29 @@ namespace process_note
             System.Windows.Application.Current.Shutdown();
         }
 
+        private ProcessList GetProcessListById(int Id)
+        {
+            ProcessList neededProcessList = null;
+            foreach (ProcessList process in processList)
+            {
+                if (process.Id == Id)
+                {
+                    neededProcessList = process;
+                }
+            }
+            return neededProcessList;
+        }
+
         private void Add_Comment_Click(object sender, RoutedEventArgs e)
         {
-            //Process actualProcess = Process.GetProcessById(selectedProcess.Id);
+           
+            int processId = Convert.ToInt32(((Button)sender).Tag);
+            ProcessList selectedProcessList = GetProcessListById(processId);
+            Application.Current.Resources.Add("processId", processId);
             CommentDialog dialog = new CommentDialog();
             dialog.Show();
         }
+
+
     }
 }
