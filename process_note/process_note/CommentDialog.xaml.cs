@@ -34,8 +34,8 @@ namespace process_note
         {
             string input = InputTextBox.Text;
             MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-            int processId = (int)Application.Current.Resources["processId"];
-            
+            Application.Current.Resources.Add("Comment", input);
+            Application.Current.Resources.Add("Closed", "closed");
             this.Close();
         }
 

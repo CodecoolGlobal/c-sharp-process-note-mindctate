@@ -43,6 +43,7 @@ namespace process_note
             ProcessInfo.ItemsSource = processList;
 
 
+
         }
         private void ListViewItem_MouseSingleClick(object sender, RoutedEventArgs e)
         {
@@ -61,6 +62,7 @@ namespace process_note
             
             
         }
+
         public class ProcessList
         {
             public int Id { get; set; }
@@ -78,7 +80,7 @@ namespace process_note
             public List<string> Comment { get; set; }
         }
 
-        private string GetCpuUsage(Process process)
+        public string GetCpuUsage(Process process)
         {
             try
             {
@@ -109,7 +111,7 @@ namespace process_note
             }
         }
 
-        private string CalculateMemoryUsage(Process process)
+        public string CalculateMemoryUsage(Process process)
         {
             return (process.PrivateMemorySize64 / (1024*1024)).ToString();
         }
@@ -199,12 +201,19 @@ namespace process_note
 
         private void Add_Comment_Click(object sender, RoutedEventArgs e)
         {
-           
+            bool isClosed = true;
             int processId = Convert.ToInt32(((Button)sender).Tag);
             ProcessList selectedProcessList = GetProcessListById(processId);
-            Application.Current.Resources.Add("processId", processId);
             CommentDialog dialog = new CommentDialog();
             dialog.Show();
+            while(isClosed)
+            {
+                if((string)Application.Current.Resources["Closed"] == "closed")
+                {
+                    isClosed = false;
+                }
+            }
+            selectedProcessList.Comment.Add((string)Application.Current.Resources["Comment"]);
         }
 
 
