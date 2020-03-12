@@ -157,17 +157,28 @@ namespace process_note
             MessageBox.Show("Thread Ids: \n" + message);
         }
 
-        private void handleAlwaysOnTop(object sender, EventArgs e)
+        private void HandleAlwaysOnTop(object sender, EventArgs e)
         {
-            Window window = (Window)sender;
-            if (AlwaysOnTop.IsChecked == false)
+            if (AlwaysOnTop.IsChecked)
             {
-                window.Topmost = true;
+                this.Topmost = true;
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window.GetType().Name != this.GetType().Name)
+                    {
+                        window.Topmost = false;
+                    }
+                }
             }
             else
             {
-                window.Topmost = false;
+                this.Topmost = false;
             }
+        }
+
+        private void ExitApp(object sender, EventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }

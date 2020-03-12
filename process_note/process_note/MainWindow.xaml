@@ -10,9 +10,9 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top" Height="24">
                 <MenuItem Header="_File">
-                    <MenuItem x:Name="AlwaysOnTop" Header="_Always on top" IsCheckable="True" IsChecked="False" Click="handleAlwaysOnTop" />
+                    <MenuItem x:Name="AlwaysOnTop" Header="_Always on top" IsCheckable="True" IsChecked="False" Click="HandleAlwaysOnTop" />
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" Click="ExitApp" />
                 </MenuItem>
             </Menu>
             <TextBox AcceptsReturn="True" />
