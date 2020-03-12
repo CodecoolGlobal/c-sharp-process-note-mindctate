@@ -14,6 +14,9 @@
                     <Separator />
                     <MenuItem Header="_Exit" Click="ExitApp" />
                 </MenuItem>
+                <MenuItem Header="_Search Google" Click="SearchGoogle">
+                    
+                </MenuItem>
             </Menu>
             <TextBox AcceptsReturn="True" />
         </DockPanel>
@@ -21,8 +24,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Process ID" Width="100" DisplayMemberBinding="{Binding Id}" />
-                    <GridViewColumn Header="Process Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="CPU" Width="60" DisplayMemberBinding="{Binding CpuUsage}"/>
+                    <GridViewColumn x:Name="ProcessName" Header="Process Name" Width="100" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn x:Name="ProcessCpu" Header="CPU" Width="60" DisplayMemberBinding="{Binding CpuUsage}"/>
                     <GridViewColumn Header="Memory" Width="100" DisplayMemberBinding="{Binding MemoryUsage}"/>
                     <GridViewColumn Header="Running time" Width="100" DisplayMemberBinding="{Binding RunningTime}"/>
                     <GridViewColumn Header="Start time" Width="150" DisplayMemberBinding="{Binding StartTime}"/>
@@ -40,7 +43,7 @@
             </ListView.View>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseDown" Handler="ListViewItem_MouseSingleClick" />
+                    <EventSetter Event="MouseLeftButtonDown" Handler="ListViewItem_MouseSingleClick" />
                     <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                 </Style>
             </ListView.ItemContainerStyle>

@@ -36,18 +36,16 @@ namespace process_note
             foreach (Process process in processes)
             {
                 processList.Add(new ProcessList() { Id = process.Id, Name = process.ProcessName, CpuUsage = GetCpuUsage(process), MemoryUsage = CalculateMemoryUsage(process) + " MB", 
-                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process) });
+                                                    RunningTime = GetRunningTime(process) + " s", StartTime = GetStartTime(process)});
             }
             ProcessInfo.ItemsSource = processList;
 
 
         }
+
         private void ListViewItem_MouseSingleClick(object sender, RoutedEventArgs e)
         {
             ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
-            ProcessWindow win2 = new ProcessWindow();
-            win2.Title = selectedProcess.Name;
-            win2.Show();
         }
         
         private void ListViewItem_MouseDoubleClick(object sender, RoutedEventArgs e)
@@ -180,5 +178,18 @@ namespace process_note
         {
             System.Windows.Application.Current.Shutdown();
         }
+
+        private void SearchGoogle(object sender, EventArgs e)
+        {
+            try {
+                ProcessList selectedProcess = (ProcessList)ProcessInfo.SelectedItems[0];
+                System.Diagnostics.Process.Start("http://www.google.com.au/search?q=" + System.Uri.EscapeDataString(selectedProcess.Name));
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                System.Diagnostics.Process.Start("https://github.com/CodecoolGlobal/c-sharp-process-note-mindctate");
+            }
+        }
+
     }
 }
